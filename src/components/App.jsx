@@ -8,10 +8,10 @@ class App extends React.Component {
       <div>
         <Nav />
         <div className="col-md-7">
-          <VideoPlayer video={this.props.searchYouTube} />
+          <VideoPlayer video={this.props.searchYouTube.length > 0 ? this.props.searchYouTube[0] : {}} />
         </div>
         <div className="col-md-5">
-          <VideoList />
+          <VideoList videos={this.props.searchYouTube.length > 0 ? this.props.searchYouTube : []}/>
         </div>
       </div>
     );
