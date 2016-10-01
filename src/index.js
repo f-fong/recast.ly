@@ -8,4 +8,4 @@ var options = {
 //   ReactDOM.render(<App searchYouTube={data} options={options} />, document.getElementById('app'));
 // });
 
-ReactDOM.render(<App searchYouTube={[]} options={options} />, document.getElementById('app'));
+ReactDOM.render(<App searchYouTube={searchYouTube} />, document.getElementById('app'));

@@ -1,10 +1,7 @@
 class App extends React.Component { 
   constructor(props) {
     super(props);
-  }
-
-  getInitialState() {
-    return {
+    this.state = {
       videoResults: []
     };
   }
@@ -14,23 +11,29 @@ class App extends React.Component {
       <div>
         <Nav />
         <div className="col-md-7">
-          <VideoPlayer video={!this.state ? (this.props.searchYouTube.length > 0 ? this.props.searchYouTube[0] : {}) : this.state.videoResults[0]} />
+          <div className="col-md-7">
+          <VideoPlayer video={ this.state.videoResults ? 
+                              (this.state.videoResults.length > 0 ? this.state.videoResults[0] : {}) 
+                              : {} } />
+        </div>
         </div>
         <div className="col-md-5">
-          <VideoList videos={!this.state ? (this.props.searchYouTube.length > 0 ? this.props.searchYouTube : []) : this.state.videoResults}/>
+          <div className="col-md-5">
+          <VideoList videos={ this.state.videoResults ? 
+                              (this.state.videoResults.length > 0 ? this.state.videoResults : []) 
+                              : [] } />
+        </div>
         </div>
       </div>
     );
   }
 
   componentDidMount() {
-    if (this.props.options) {
-      searchYouTube(this.props.options, (data) => {
-        this.setState({
-          videoResults: data
-        });
+    this.props.searchYouTube(window.options, (data) => {
+      this.setState({
+        videoResults: data
       });
-    }  
+    });
   }
 }
 
