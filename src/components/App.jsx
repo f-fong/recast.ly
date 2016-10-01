@@ -3,18 +3,34 @@ class App extends React.Component {
     super(props);
   }
 
+  getInitialState() {
+    return {
+      videoResults: []
+    };
+  }
+
   render() {
     return (
       <div>
         <Nav />
         <div className="col-md-7">
-          <VideoPlayer video={this.props.searchYouTube.length > 0 ? this.props.searchYouTube[0] : {}} />
+          <VideoPlayer video={!this.state ? (this.props.searchYouTube.length > 0 ? this.props.searchYouTube[0] : {}) : this.state.videoResults[0]} />
         </div>
         <div className="col-md-5">
-          <VideoList videos={this.props.searchYouTube.length > 0 ? this.props.searchYouTube : []}/>
+          <VideoList videos={!this.state ? (this.props.searchYouTube.length > 0 ? this.props.searchYouTube : []) : this.state.videoResults}/>
         </div>
       </div>
     );
+  }
+
+  componentDidMount() {
+    if (this.props.options) {
+      searchYouTube(this.props.options, (data) => {
+        this.setState({
+          videoResults: data
+        });
+      });
+    }  
   }
 }
 

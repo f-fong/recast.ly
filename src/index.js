@@ -4,8 +4,8 @@ var options = {
   max: 5
 };
 
-var youTubeData = searchYouTube(options, (data) => {
-  ReactDOM.render(<App searchYouTube={data}/>, document.getElementById('app'));
-});
+// var youTubeData = searchYouTube(options, (data) => {
+//   ReactDOM.render(<App searchYouTube={data} options={options} />, document.getElementById('app'));
+// });
 
-// ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App searchYouTube={[]} options={options} />, document.getElementById('app'));
