@@ -3,6 +3,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       videoResults: [],
+      currentVideo: null,
       searchKeyword: 'reactjs'
     };
   }
@@ -18,21 +19,21 @@ class App extends React.Component {
 
   handleOnSearchAction(event) {
     window.options.query = this.state.searchKeyword;
-    // this.setState({
-    //   searchKeyword: this.state.searchKeyword
-    // });
-
     this.requestData();
   }
 
+  handleOnSetCurrentVideo(video) {
+    this.setState({
+      currentVideo: video
+    });
+  }
+
   requestData() {
-    //setTimeout(() => {
     this.props.searchYouTube(window.options, (data) => {
       this.setState({
         videoResults: data
       });
     });
-    //}, 500);
   }
 
   render() {
@@ -42,7 +43,7 @@ class App extends React.Component {
              handleOnClick={this.handleOnSearchAction.bind(this)} />
         <div className="col-md-7">
           <div className="col-md-7">
-          <VideoPlayer video={ this.state.videoResults ? 
+          <VideoPlayer video={ this.state.currentVideo ? this.state.currentVideo : this.state.videoResults ? 
                               (this.state.videoResults.length > 0 ? this.state.videoResults[0] : {}) 
                               : {} } />
         </div>
@@ -51,7 +52,7 @@ class App extends React.Component {
           <div className="col-md-5">
           <VideoList videos={ this.state.videoResults ? 
                               (this.state.videoResults.length > 0 ? this.state.videoResults : []) 
-                              : [] } />
+                              : [] } handleOnClick={this.handleOnSetCurrentVideo.bind(this)} />
         </div>
         </div>
       </div>
