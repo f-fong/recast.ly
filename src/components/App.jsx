@@ -2,14 +2,44 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      videoResults: []
+      videoResults: [],
+      searchKeyword: 'reactjs'
     };
+  }
+
+  handleOnSearchKeywordChanged(searchKeyword) {
+    this.state.searchKeyword = searchKeyword.target.value;
+    this.setState({
+      searchKeyword: this.state.searchKeyword
+    });
+
+    this.requestData();
+  }
+
+  handleOnSearchAction(event) {
+    window.options.query = this.state.searchKeyword;
+    // this.setState({
+    //   searchKeyword: this.state.searchKeyword
+    // });
+
+    this.requestData();
+  }
+
+  requestData() {
+    //setTimeout(() => {
+    this.props.searchYouTube(window.options, (data) => {
+      this.setState({
+        videoResults: data
+      });
+    });
+    //}, 500);
   }
 
   render() {
     return (
       <div>
-        <Nav />
+        <Nav handleOnChange={this.handleOnSearchKeywordChanged.bind(this)} 
+             handleOnClick={this.handleOnSearchAction.bind(this)} />
         <div className="col-md-7">
           <div className="col-md-7">
           <VideoPlayer video={ this.state.videoResults ? 
@@ -29,11 +59,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.props.searchYouTube(window.options, (data) => {
-      this.setState({
-        videoResults: data
-      });
-    });
+    this.requestData();
   }
 }
 
